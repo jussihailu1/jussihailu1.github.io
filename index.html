@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #key {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Random key generator</h1>
+    <h3>Press spacebar to pause or continue the timer</h3>
+    <!-- <h1 id="timer"></h1> -->
+    <label>interval (secs)</label>
+    <input type="number" id="interval" min="0.5">
+    <br>
+    <h3>Keys</h3>
+    <div id="checkbox-container">
+        <!-- <label for="key-C"><input type="checkbox" name="key" value="C" id="key-C" checked>C</label><br>
+        <label for="key-D"><input type="checkbox" name="key" value="D" id="key-D">D</label><br>
+        <label for="key-E"><input type="checkbox" name="key" value="E" id="key-E">E</label><br> -->
+    </div>
+    <h1 id="key"></h1>
+    <script src="intervalTimer.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

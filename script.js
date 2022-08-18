@@ -23,6 +23,9 @@ intervalInput.value = defaultInterval
 const speakInput = document.getElementById('speak')
 speakInput.checked = true
 
+const skip7 = document.getElementById('skip7')
+skip7.checked = true
+
 const pauseButton = document.getElementById('pause')
 const playButton = document.getElementById('play')
 playButton.hidden = true
@@ -35,7 +38,8 @@ const speech = new SpeechSynthesisUtterance()
 speech.rate = 2 // TODO: de rate afhankelijk maken van hoeveel er is om te zeggen
 
 loop = () => {
-    const generatedNumbers = shuffle([1, 2, 3, 4, 5, 6, 7, 8]).slice(0, numbersInput.value).join(` `) // 8 keys on piano
+    const scaleNumbers = skip7.checked ? [1, 2, 3, 4, 5, 6, 8] : [1, 2, 3, 4, 5, 6, 7, 8]
+    const generatedNumbers = shuffle(scaleNumbers).slice(0, numbersInput.value).join(` `)
     const randomKey = activeKeys[Math.floor(Math.random() * activeKeys.length)]
     key.textContent = randomKey
     numbers.textContent = generatedNumbers

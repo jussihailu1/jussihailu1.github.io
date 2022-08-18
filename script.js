@@ -55,7 +55,6 @@ getScalenumbers = () => {
 
 loop = () => {
     const scaleNumbers = getScalenumbers()
-    console.log(scaleNumbers)
     const generatedNumbers = shuffle(scaleNumbers).slice(0, numbersInput.value).join(` `)
     const randomKey = activeKeys[Math.floor(Math.random() * activeKeys.length)]
     key.textContent = randomKey
@@ -75,7 +74,6 @@ speak = (key, numbers) => {
 
 setLoop = (interval) => {
     try {
-        console.log("clearing")
         intervalTimer.clear()
     } catch (error) {
     } finally {
@@ -153,11 +151,7 @@ document.onkeydown = (ev) => {
 pauseButton.onclick = () => pause()
 playButton.onclick = () => resume()
 
-intervalInput.oninput = () => {
-    let v = intervalInput.value < 0.5 ? 0.5 : intervalInput.value
-    console.log("changing to " + v)
-    setLoop(v)
-}
+intervalInput.oninput = () => setLoop(intervalInput.value < 0.5 ? 0.5 : intervalInput.value)
 
 const keySelection = document.querySelectorAll('input[name="key"]')
 

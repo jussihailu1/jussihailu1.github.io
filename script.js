@@ -24,7 +24,7 @@ let intervalTimer
 let gameStarted = false
 
 loop = () => {
-    const generatedNumbers = shuffle([...Array(8).keys()]).slice(0, numbersInput.value)  // 8 keys on piano
+    const generatedNumbers = shuffle([1, 2, 3, 4, 5, 6, 7, 8]).slice(0, numbersInput.value)  // 8 keys on piano
     const randomKey = activeKeys[Math.floor(Math.random() * activeKeys.length)]
     key.textContent = randomKey
     numbers.textContent = generatedNumbers.join(` `)

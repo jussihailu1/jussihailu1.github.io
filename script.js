@@ -21,10 +21,13 @@ const defaultInterval = 1
 intervalInput.value = defaultInterval
 
 const speakInput = document.getElementById('speak')
-speakInput.checked = true
+speakInput.checked = false
 
 const skip7 = document.getElementById('skip7')
 skip7.checked = true
+
+const skip8 = document.getElementById('skip8')
+skip8.checked = true
 
 const pauseButton = document.getElementById('pause')
 const playButton = document.getElementById('play')
@@ -37,8 +40,22 @@ const synth = window.speechSynthesis
 const speech = new SpeechSynthesisUtterance()
 speech.rate = 2 // TODO: de rate afhankelijk maken van hoeveel er is om te zeggen
 
+getScalenumbers = () => {
+    switch (true) {
+        case !skip7.checked && !skip8.checked:
+            return [1, 2, 3, 4, 5, 6, 7, 8]
+        case skip7.checked && !skip8.checked:
+            return [1, 2, 3, 4, 5, 6, 8]
+        case !skip7.checked && skip8.checked:
+            return [1, 2, 3, 4, 5, 6, 7]
+        case skip7.checked && skip8.checked:
+            return [1, 2, 3, 4, 5, 6]
+    }
+}
+
 loop = () => {
-    const scaleNumbers = skip7.checked ? [1, 2, 3, 4, 5, 6, 8] : [1, 2, 3, 4, 5, 6, 7, 8]
+    const scaleNumbers = getScalenumbers()
+    console.log(scaleNumbers)
     const generatedNumbers = shuffle(scaleNumbers).slice(0, numbersInput.value).join(` `)
     const randomKey = activeKeys[Math.floor(Math.random() * activeKeys.length)]
     key.textContent = randomKey

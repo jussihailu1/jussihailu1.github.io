@@ -20,14 +20,36 @@ const intervalInput = document.getElementById('interval')
 const defaultInterval = 1
 intervalInput.value = defaultInterval
 
+const speakInput = document.getElementById('speak')
+speakInput.checked = true
+
+const pauseButton = document.getElementById('pause')
+const playButton = document.getElementById('play')
+playButton.hidden = true
+
 let intervalTimer
 let gameStarted = false
 
+const synth = window.speechSynthesis
+const speech = new SpeechSynthesisUtterance()
+speech.rate = 2 // TODO: de rate afhankelijk maken van hoeveel er is om te zeggen
+
 loop = () => {
-    const generatedNumbers = shuffle([1, 2, 3, 4, 5, 6, 7, 8]).slice(0, numbersInput.value)  // 8 keys on piano
+    const generatedNumbers = shuffle([1, 2, 3, 4, 5, 6, 7, 8]).slice(0, numbersInput.value).join(` `) // 8 keys on piano
     const randomKey = activeKeys[Math.floor(Math.random() * activeKeys.length)]
     key.textContent = randomKey
-    numbers.textContent = generatedNumbers.join(` `)
+    numbers.textContent = generatedNumbers
+    if (speakInput.checked) speak(randomKey, generatedNumbers)
+}
+
+speak = (key, numbers) => {
+    let keyToSpeak = key
+    if (key.includes("#")) keyToSpeak = key.substring(0, 1) + " sharp"
+    else if (key.includes("b")) keyToSpeak = key.substring(0, 1) + " flat"
+
+    if (synth.speaking) synth.cancel()
+    speech.text = keyToSpeak + " " + numbers
+    synth.speak(speech);
 }
 
 setLoop = (interval) => {
@@ -56,6 +78,7 @@ changeActiveKey = (checked, value) => {
         if (activeKeys.length == 0) {
             intervalTimer.pause()
             key.textContent = "Select at least 1 key to continue"
+            numbers.textContent = ""
         }
     }
 }
@@ -83,11 +106,31 @@ for (const k of keys) {
     checkBoxContainer.innerHTML += `<label for="key-${k}"><input type="checkbox" name="key" value="${k}" id="key-${k}">${k}</label><br>`
 }
 
+pause = () => {
+    intervalTimer.pause()
+    pauseButton.hidden = true
+    playButton.hidden = false
+}
+
+resume = () => {
+
+    if (intervalTimer == undefined) { setLoop(defaultInterval) }
+
+    intervalTimer.resume()
+    pauseButton.hidden = false
+    playButton.hidden = true
+}
+
 // ---------- Input ------------------------------------
 
 document.onkeydown = (ev) => {
-    (ev.key == ' ' && !intervalTimer.paused) ? intervalTimer.pause() : intervalTimer.resume()
+    if (ev.key == ' ') {
+        intervalTimer.paused ? intervalTimer.resume() : intervalTimer.pause()
+    }
 }
+
+pauseButton.onclick = () => pause()
+playButton.onclick = () => resume()
 
 intervalInput.oninput = () => {
     let v = intervalInput.value < 0.5 ? 0.5 : intervalInput.value

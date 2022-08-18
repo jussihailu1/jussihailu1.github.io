@@ -27,7 +27,7 @@ loop = () => {
     const generatedNumbers = shuffle([...Array(8).keys()]).slice(0, numbersInput.value)  // 8 keys on piano
     const randomKey = activeKeys[Math.floor(Math.random() * activeKeys.length)]
     key.textContent = randomKey
-    numbers.textContent = generatedNumbers.join(`ㅤ`)
+    numbers.textContent = generatedNumbers.join(` `)
 }
 
 setLoop = (interval) => {
